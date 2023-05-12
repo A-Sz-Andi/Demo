@@ -1,0 +1,36 @@
+package hu.maingame;
+
+import java.util.Scanner;
+
+public class MainGameDemo {
+
+	public static void main(String[] args) {
+		
+		int height=7;
+		int width =7;
+		String [][] level = new String[height][width];
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		for(int row = 0; row<height; row++) {
+			for(int column = 0; column<width; column++) {
+				if(row==0 || row==2|| row==4|| row==height-1) {
+					level[row][column]="-";
+				}else if(column==0 ||column==2|| column==4|| column==width-1){
+					level[row][column]="|";
+				}else {
+					level[row][column]= " ";
+				}
+			}
+		}		
+		
+		for(int row = 0; row<height; row++) {
+			for(int column = 0; column<width; column++) {
+				System.out.print(level[row][column]);
+			}
+			System.out.println();
+		}
+		System.out.println("MMMMMMMMMMMMMMMMMM");
+			
+		}	
+	}
