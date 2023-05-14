@@ -1,36 +1,111 @@
-package hu.maingame;
+package hu.main;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class MainGameDemo {
+public class main {
+
+	static int height = 3;
+	static int width = 3;
+	static Scanner scanner = new Scanner(System.in);
+	static String[][] level = new String[height][width];
+	static int iterationnumber = 9;
 
 	public static void main(String[] args) {
-		
-		int height=7;
-		int width =7;
-		String [][] level = new String[height][width];
-		
-		Scanner scanner = new Scanner(System.in);
-		
-		for(int row = 0; row<height; row++) {
-			for(int column = 0; column<width; column++) {
-				if(row==0 || row==2|| row==4|| row==height-1) {
-					level[row][column]="-";
-				}else if(column==0 ||column==2|| column==4|| column==width-1){
-					level[row][column]="|";
-				}else {
-					level[row][column]= " ";
-				}
-			}
-		}		
-		
-		for(int row = 0; row<height; row++) {
-			for(int column = 0; column<width; column++) {
-				System.out.print(level[row][column]);
-			}
-			System.out.println();
+
+		Arrays.stream(level).forEach(it -> Arrays.fill(it, " "));
+		boolean running = true;
+		//Ezt csak sejtem, hogy mi lehet. Itt töltöd fel a táblát szóközökkel.
+
+		while (running) {
+			render(level);
+			readInput();
+			running = shouldContinueTheGame();
 		}
+
 		System.out.println("MMMMMMMMMMMMMMMMMM");
-			
-		}	
 	}
+
+	private static boolean shouldContinueTheGame() {
+				
+		if (level[0][0]=="x" && level[1][0]=="x" && level[2][0]=="x" || level[0][1]=="x" && level[1][1]=="x" && level[1][2]=="x") {
+			System.out.println("Gratulálok, 1-es játékos nyertél. Vége a játéknak");
+		}else if (level[0][0]=="o" && level[1][0]=="o" && level[2][0]=="o" || level[0][1]=="o" && level[1][1]=="o" && level[1][2]=="o") {
+			System.out.println("Gratulálok, 2-es játékos nyertél. Vége a játéknak");
+		}else {
+			System.out.println("Döntetlen. Vége a játéknak");
+		}
+		//Ez így jó lesz? Ha igen, akkor folytatom, bár tuti van egyszerübb módja is.
+
+		// TODO check is anybody win
+		return false;
+	}
+
+	private static void readInput() {
+		boolean shouldReadInput = true;
+		String input;
+		String firstPlayer = "x";
+		String secondPlayer = "o";
+		// String input = inputFirstPlayer + inputSecondPlayer;
+		while (shouldReadInput) {
+			input = scanner.nextLine();
+			iterationnumber = 9;
+			switch (input) {
+			case "x":
+				System.out.println("x");
+				break;
+			case "o":
+				System.out.println("o");
+				break;
+			default:
+				System.out.println(
+						"Ismeretlen karater, kérem, adja meg saját jelét. Első játékos jele: x, második játékos jele: o!");
+				shouldReadInput = false;
+			}
+			// TODO check input is valid
+
+			// TODO write input to level
+			level[0][0] = "X";
+			//Gondolom itt a level tömböt fel kell töltenem tartalommal vagy nem? Itt még ötletem és tudásom sincs, hogyan tudnám megoldani, hogy a szóközök helyére bekerüljön az x és az o. 
+		}
+	}
+
+	private static void render(String[][] level) {
+		for (int rowIndex = 0; rowIndex < level.length; rowIndex++) {
+			String[] row = level[rowIndex];
+			writeHeaderAndSeparator(row);
+			writeBody(row);
+			writeFooter(level, rowIndex);
+		}
+	}
+
+	private static void writeFooter(String[][] level, int rowIndex) {
+		if (isLastRow(level, rowIndex)) {
+			for (int columnIndex = 0; columnIndex < level.length; columnIndex++) {
+				System.out.print("--");
+			}
+			System.out.println("-");
+		}
+	}
+
+	private static boolean isLastRow(String[][] level, int rowIndex) {
+		return rowIndex + 1 == level.length;
+	}
+
+	private static void writeBody(String[] row) {
+		for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
+			System.out.print("|");
+			System.out.print(row[columnIndex]);
+		}
+		System.out.print("|");
+		System.out.println();
+	}
+
+	private static void writeHeaderAndSeparator(String[] row) {
+		for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
+			System.out.print("--");
+		}
+		System.out.println("-");
+	}
+
+}
