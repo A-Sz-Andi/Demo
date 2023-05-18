@@ -15,7 +15,7 @@ public class main {
 
 		Arrays.stream(level).forEach(it -> Arrays.fill(it, " "));
 		boolean running = true;
-		//Ezt csak sejtem, hogy mi lehet. Itt töltöd fel a táblát szóközökkel.
+		// Ezt csak sejtem, hogy mi lehet. Itt töltöd fel a táblát szóközökkel.
 
 		while (running) {
 			render(level);
@@ -27,15 +27,17 @@ public class main {
 	}
 
 	private static boolean shouldContinueTheGame() {
-				
-		if (level[0][0]=="x" && level[1][0]=="x" && level[2][0]=="x" || level[0][1]=="x" && level[1][1]=="x" && level[1][2]=="x") {
+
+		if (level[0][0] == "x" && level[1][0] == "x" && level[2][0] == "x"
+				|| level[0][1] == "x" && level[1][1] == "x" && level[1][2] == "x") {
 			System.out.println("Gratulálok, 1-es játékos nyertél. Vége a játéknak");
-		}else if (level[0][0]=="o" && level[1][0]=="o" && level[2][0]=="o" || level[0][1]=="o" && level[1][1]=="o" && level[1][2]=="o") {
+		} else if (level[0][0] == "o" && level[1][0] == "o" && level[2][0] == "o"
+				|| level[0][1] == "o" && level[1][1] == "o" && level[1][2] == "o") {
 			System.out.println("Gratulálok, 2-es játékos nyertél. Vége a játéknak");
-		}else {
+		} else {
 			System.out.println("Döntetlen. Vége a játéknak");
 		}
-		//Ez így jó lesz? Ha igen, akkor folytatom, bár tuti van egyszerübb módja is.
+		// Ez így jó lesz? Ha igen, akkor folytatom, bár tuti van egyszerübb módja is.
 
 		// TODO check is anybody win
 		return false;
@@ -44,23 +46,19 @@ public class main {
 	private static void readInput() {
 		boolean shouldReadInput = true;
 		String input;
-		String firstPlayer = "x";
-		String secondPlayer = "o";
-		// String input = inputFirstPlayer + inputSecondPlayer;
 		while (shouldReadInput) {
-			input = scanner.nextLine();
-			iterationnumber = 9;
-			switch (input) {
-			case "x":
-				System.out.println("x");
-				break;
-			case "o":
-				System.out.println("o");
-				break;
-			default:
-				System.out.println(
-						"Ismeretlen karater, kérem, adja meg saját jelét. Első játékos jele: x, második játékos jele: o!");
-				shouldReadInput = false;
+//			input = scanner.nextLine();
+			definePlayer();
+			for(int i=0; i<10; i++) {
+				System.out.println("Az első játékos következik:");
+				playerMove();
+				render(level);
+				System.out.println("A második játékos következik:");
+				playerMove();
+				render(level);
+			}
+			
+			shouldReadInput = false;
 			}
 			// TODO check input is valid
 
@@ -68,7 +66,28 @@ public class main {
 			level[0][0] = "X";
 			//Gondolom itt a level tömböt fel kell töltenem tartalommal vagy nem? Itt még ötletem és tudásom sincs, hogyan tudnám megoldani, hogy a szóközök helyére bekerüljön az x és az o. 
 		}
+
+	private static void definePlayer() {
+		int [] Player = new int[2];
+		Player[0]=1;
+		Player[1]=2;
 	}
+
+	private static void playerMove() {
+		System.out.print("Melyik sor?");
+		int row = scanner.nextInt();
+		if (row>0 && row<4) {
+		}else {
+			System.out.println("Kiment a pályáról. Kérem, 1-től 3-ig adja meg a sor sorszámát. ");
+		}
+		System.out.print("Melyik oszlop?");
+		int column = scanner.nextInt();
+		if (column>0 && column<4) {				
+		}else {
+			System.out.print("Kiment a pályáról. Kérem, 1-től 3-ig adja meg az oszlop sorszámát. ");					
+		}
+	}
+	
 
 	private static void render(String[][] level) {
 		for (int rowIndex = 0; rowIndex < level.length; rowIndex++) {
